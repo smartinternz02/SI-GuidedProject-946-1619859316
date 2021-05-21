@@ -1,0 +1,1392 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "data = pd.read_csv(r\"E:\\smartbridge data\\bank.csv\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>age</th>\n",
+       "      <th>job</th>\n",
+       "      <th>marital</th>\n",
+       "      <th>education</th>\n",
+       "      <th>default</th>\n",
+       "      <th>balance</th>\n",
+       "      <th>housing</th>\n",
+       "      <th>loan</th>\n",
+       "      <th>contact</th>\n",
+       "      <th>day</th>\n",
+       "      <th>month</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>campaign</th>\n",
+       "      <th>pdays</th>\n",
+       "      <th>previous</th>\n",
+       "      <th>poutcome</th>\n",
+       "      <th>deposit</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>59</td>\n",
+       "      <td>admin.</td>\n",
+       "      <td>married</td>\n",
+       "      <td>secondary</td>\n",
+       "      <td>no</td>\n",
+       "      <td>2343</td>\n",
+       "      <td>yes</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>1042</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>56</td>\n",
+       "      <td>admin.</td>\n",
+       "      <td>married</td>\n",
+       "      <td>secondary</td>\n",
+       "      <td>no</td>\n",
+       "      <td>45</td>\n",
+       "      <td>no</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>1467</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>41</td>\n",
+       "      <td>technician</td>\n",
+       "      <td>married</td>\n",
+       "      <td>secondary</td>\n",
+       "      <td>no</td>\n",
+       "      <td>1270</td>\n",
+       "      <td>yes</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>1389</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>55</td>\n",
+       "      <td>services</td>\n",
+       "      <td>married</td>\n",
+       "      <td>secondary</td>\n",
+       "      <td>no</td>\n",
+       "      <td>2476</td>\n",
+       "      <td>yes</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>579</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>54</td>\n",
+       "      <td>admin.</td>\n",
+       "      <td>married</td>\n",
+       "      <td>tertiary</td>\n",
+       "      <td>no</td>\n",
+       "      <td>184</td>\n",
+       "      <td>no</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>673</td>\n",
+       "      <td>2</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   age         job  marital  education default  balance housing loan  contact  \\\n",
+       "0   59      admin.  married  secondary      no     2343     yes   no  unknown   \n",
+       "1   56      admin.  married  secondary      no       45      no   no  unknown   \n",
+       "2   41  technician  married  secondary      no     1270     yes   no  unknown   \n",
+       "3   55    services  married  secondary      no     2476     yes   no  unknown   \n",
+       "4   54      admin.  married   tertiary      no      184      no   no  unknown   \n",
+       "\n",
+       "   day month  duration  campaign  pdays  previous poutcome deposit  \n",
+       "0    5   may      1042         1     -1         0  unknown     yes  \n",
+       "1    5   may      1467         1     -1         0  unknown     yes  \n",
+       "2    5   may      1389         1     -1         0  unknown     yes  \n",
+       "3    5   may       579         1     -1         0  unknown     yes  \n",
+       "4    5   may       673         2     -1         0  unknown     yes  "
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "age          False\n",
+       "job          False\n",
+       "marital      False\n",
+       "education    False\n",
+       "default      False\n",
+       "balance      False\n",
+       "housing      False\n",
+       "loan         False\n",
+       "contact      False\n",
+       "day          False\n",
+       "month        False\n",
+       "duration     False\n",
+       "campaign     False\n",
+       "pdays        False\n",
+       "previous     False\n",
+       "poutcome     False\n",
+       "deposit      False\n",
+       "dtype: bool"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.isnull().any()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "data = data.drop(['marital','education','default'],axis=1)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>age</th>\n",
+       "      <th>job</th>\n",
+       "      <th>balance</th>\n",
+       "      <th>housing</th>\n",
+       "      <th>loan</th>\n",
+       "      <th>contact</th>\n",
+       "      <th>day</th>\n",
+       "      <th>month</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>campaign</th>\n",
+       "      <th>pdays</th>\n",
+       "      <th>previous</th>\n",
+       "      <th>poutcome</th>\n",
+       "      <th>deposit</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>59</td>\n",
+       "      <td>admin.</td>\n",
+       "      <td>2343</td>\n",
+       "      <td>yes</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>1042</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>56</td>\n",
+       "      <td>admin.</td>\n",
+       "      <td>45</td>\n",
+       "      <td>no</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>1467</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>41</td>\n",
+       "      <td>technician</td>\n",
+       "      <td>1270</td>\n",
+       "      <td>yes</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>1389</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>55</td>\n",
+       "      <td>services</td>\n",
+       "      <td>2476</td>\n",
+       "      <td>yes</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>579</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>54</td>\n",
+       "      <td>admin.</td>\n",
+       "      <td>184</td>\n",
+       "      <td>no</td>\n",
+       "      <td>no</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>5</td>\n",
+       "      <td>may</td>\n",
+       "      <td>673</td>\n",
+       "      <td>2</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>unknown</td>\n",
+       "      <td>yes</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   age         job  balance housing loan  contact  day month  duration  \\\n",
+       "0   59      admin.     2343     yes   no  unknown    5   may      1042   \n",
+       "1   56      admin.       45      no   no  unknown    5   may      1467   \n",
+       "2   41  technician     1270     yes   no  unknown    5   may      1389   \n",
+       "3   55    services     2476     yes   no  unknown    5   may       579   \n",
+       "4   54      admin.      184      no   no  unknown    5   may       673   \n",
+       "\n",
+       "   campaign  pdays  previous poutcome deposit  \n",
+       "0         1     -1         0  unknown     yes  \n",
+       "1         1     -1         0  unknown     yes  \n",
+       "2         1     -1         0  unknown     yes  \n",
+       "3         1     -1         0  unknown     yes  \n",
+       "4         2     -1         0  unknown     yes  "
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'pandas.core.frame.DataFrame'>\n",
+      "RangeIndex: 11162 entries, 0 to 11161\n",
+      "Data columns (total 14 columns):\n",
+      " #   Column    Non-Null Count  Dtype \n",
+      "---  ------    --------------  ----- \n",
+      " 0   age       11162 non-null  int64 \n",
+      " 1   job       11162 non-null  object\n",
+      " 2   balance   11162 non-null  int64 \n",
+      " 3   housing   11162 non-null  object\n",
+      " 4   loan      11162 non-null  object\n",
+      " 5   contact   11162 non-null  object\n",
+      " 6   day       11162 non-null  int64 \n",
+      " 7   month     11162 non-null  object\n",
+      " 8   duration  11162 non-null  int64 \n",
+      " 9   campaign  11162 non-null  int64 \n",
+      " 10  pdays     11162 non-null  int64 \n",
+      " 11  previous  11162 non-null  int64 \n",
+      " 12  poutcome  11162 non-null  object\n",
+      " 13  deposit   11162 non-null  object\n",
+      "dtypes: int64(7), object(7)\n",
+      "memory usage: 915.7+ KB\n"
+     ]
+    }
+   ],
+   "source": [
+    "data.info()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['admin.', 'technician', 'services', 'management', 'retired',\n",
+       "       'blue-collar', 'unemployed', 'entrepreneur', 'housemaid',\n",
+       "       'unknown', 'self-employed', 'student'], dtype=object)"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.job.unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['yes', 'no'], dtype=object)"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.housinghousing.unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['no', 'yes'], dtype=object)"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.loan.unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['unknown', 'cellular', 'telephone'], dtype=object)"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.contact.unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['may', 'jun', 'jul', 'aug', 'oct', 'nov', 'dec', 'jan', 'feb',\n",
+       "       'mar', 'apr', 'sep'], dtype=object)"
+      ]
+     },
+     "execution_count": 12,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.month.unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array(['unknown', 'other', 'failure', 'success'], dtype=object)"
+      ]
+     },
+     "execution_count": 13,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.poutcome.unique()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.preprocessing import LabelEncoder\n",
+    "le = LabelEncoder()\n",
+    "data[\"job\"] = le.fit_transform(data[\"job\"])\n",
+    "data[\"housing\"] = le.fit_transform(data[\"housing\"])\n",
+    "data[\"loan\"] = le.fit_transform(data[\"loan\"])\n",
+    "data[\"contact\"] = le.fit_transform(data[\"contact\"])\n",
+    "data[\"month\"] = le.fit_transform(data[\"month\"])\n",
+    "data[\"poutcome\"] = le.fit_transform(data[\"poutcome\"])\n",
+    "data[\"deposit\"] = le.fit_transform(data[\"deposit\"])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>age</th>\n",
+       "      <th>job</th>\n",
+       "      <th>balance</th>\n",
+       "      <th>housing</th>\n",
+       "      <th>loan</th>\n",
+       "      <th>contact</th>\n",
+       "      <th>day</th>\n",
+       "      <th>month</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>campaign</th>\n",
+       "      <th>pdays</th>\n",
+       "      <th>previous</th>\n",
+       "      <th>poutcome</th>\n",
+       "      <th>deposit</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>59</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2343</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>1042</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>56</td>\n",
+       "      <td>0</td>\n",
+       "      <td>45</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>1467</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>41</td>\n",
+       "      <td>9</td>\n",
+       "      <td>1270</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>1389</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>55</td>\n",
+       "      <td>7</td>\n",
+       "      <td>2476</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>579</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>54</td>\n",
+       "      <td>0</td>\n",
+       "      <td>184</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>673</td>\n",
+       "      <td>2</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   age  job  balance  housing  loan  contact  day  month  duration  campaign  \\\n",
+       "0   59    0     2343        1     0        2    5      8      1042         1   \n",
+       "1   56    0       45        0     0        2    5      8      1467         1   \n",
+       "2   41    9     1270        1     0        2    5      8      1389         1   \n",
+       "3   55    7     2476        1     0        2    5      8       579         1   \n",
+       "4   54    0      184        0     0        2    5      8       673         2   \n",
+       "\n",
+       "   pdays  previous  poutcome  deposit  \n",
+       "0     -1         0         3        1  \n",
+       "1     -1         0         3        1  \n",
+       "2     -1         0         3        1  \n",
+       "3     -1         0         3        1  \n",
+       "4     -1         0         3        1  "
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "x = data.iloc[:,0:13].values\n",
+    "y = data.iloc[:,13].values"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(11162, 13)"
+      ]
+     },
+     "execution_count": 18,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "x.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(11162,)"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "y.shape"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 20,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[  59,    0, 2343, ...,   -1,    0,    3],\n",
+       "       [  56,    0,   45, ...,   -1,    0,    3],\n",
+       "       [  41,    9, 1270, ...,   -1,    0,    3],\n",
+       "       ...,\n",
+       "       [  32,    9,   29, ...,   -1,    0,    3],\n",
+       "       [  43,    9,    0, ...,  172,    5,    0],\n",
+       "       [  34,    9,    0, ...,   -1,    0,    3]], dtype=int64)"
+      ]
+     },
+     "execution_count": 20,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "x"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 21,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([1, 1, 1, ..., 0, 0, 0])"
+      ]
+     },
+     "execution_count": 21,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "y"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 52,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.model_selection import train_test_split\n",
+    "x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2,random_state=10)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 53,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.preprocessing import StandardScaler\n",
+    "sc = StandardScaler()\n",
+    "x_train = sc.fit_transform(x_train)\n",
+    "x_test = sc.fit_transform(x_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 54,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ 0.30355616, -0.11527207, -0.40717069, ..., -0.479803  ,\n",
+       "        -0.38004742,  0.52472111],\n",
+       "       [-0.77978927,  1.44285467, -0.33049416, ..., -0.479803  ,\n",
+       "        -0.38004742,  0.52472111],\n",
+       "       [ 2.38691275,  0.19635328, -0.38641111, ..., -0.479803  ,\n",
+       "        -0.38004742,  0.52472111],\n",
+       "       ...,\n",
+       "       [ 0.13688763,  0.81960397,  0.20356285, ...,  0.38154486,\n",
+       "         1.4294321 , -0.46572879],\n",
+       "       [-0.11311516, -1.05014811, -0.29198849, ..., -0.479803  ,\n",
+       "        -0.38004742,  0.52472111],\n",
+       "       [-1.11312632,  0.50797862, -0.24511201, ..., -0.479803  ,\n",
+       "        -0.38004742,  0.52472111]])"
+      ]
+     },
+     "execution_count": 54,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "x_test"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 55,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([[ 0.90821897, -0.16027463, -0.28956114, ..., -0.48159565,\n",
+       "        -0.35931621,  0.51969995],\n",
+       "       [-0.94195648, -0.16027463, -0.581739  , ..., -0.48159565,\n",
+       "        -0.35931621,  0.51969995],\n",
+       "       [-0.60556094, -0.16027463,  0.34110433, ..., -0.48159565,\n",
+       "        -0.35931621,  0.51969995],\n",
+       "       ...,\n",
+       "       [ 0.2354279 , -0.16027463, -0.14271053, ..., -0.48159565,\n",
+       "        -0.35931621,  0.51969995],\n",
+       "       [-0.10096764,  1.3885264 , -0.43945844, ..., -0.48159565,\n",
+       "        -0.35931621,  0.51969995],\n",
+       "       [-0.85785759, -0.16027463, -0.18353622, ..., -0.48159565,\n",
+       "        -0.35931621,  0.51969995]])"
+      ]
+     },
+     "execution_count": 55,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "x_train"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 56,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\User\\anaconda3\\lib\\site-packages\\sklearn\\linear_model\\logistic.py:432: FutureWarning: Default solver will be changed to 'lbfgs' in 0.22. Specify a solver to silence this warning.\n",
+      "  FutureWarning)\n"
+     ]
+    },
+    {
+     "data": {
+      "text/plain": [
+       "LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,\n",
+       "                   intercept_scaling=1, l1_ratio=None, max_iter=100,\n",
+       "                   multi_class='warn', n_jobs=None, penalty='l2',\n",
+       "                   random_state=None, solver='warn', tol=0.0001, verbose=0,\n",
+       "                   warm_start=False)"
+      ]
+     },
+     "execution_count": 56,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "from sklearn.linear_model import LogisticRegression\n",
+    "lgr = LogisticRegression()\n",
+    "lgr.fit(x_train,y_train)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 57,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ypred = lgr.predict(x_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 58,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([1, 1, 0, ..., 1, 1, 1])"
+      ]
+     },
+     "execution_count": 58,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "ypred"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 59,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([0, 1, 0, ..., 1, 1, 1])"
+      ]
+     },
+     "execution_count": 59,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "y_test"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 60,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.metrics import accuracy_score\n",
+    "accuracy = accuracy_score(ypred,y_test)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.799373040752351"
+      ]
+     },
+     "execution_count": 61,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "accuracy"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 62,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([1])"
+      ]
+     },
+     "execution_count": 62,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "lgr.predict(sc.transform([[59,0,2343,1,0,2,5,8,1042,1,-1,0,3]]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 71,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>age</th>\n",
+       "      <th>job</th>\n",
+       "      <th>balance</th>\n",
+       "      <th>housing</th>\n",
+       "      <th>loan</th>\n",
+       "      <th>contact</th>\n",
+       "      <th>day</th>\n",
+       "      <th>month</th>\n",
+       "      <th>duration</th>\n",
+       "      <th>campaign</th>\n",
+       "      <th>pdays</th>\n",
+       "      <th>previous</th>\n",
+       "      <th>poutcome</th>\n",
+       "      <th>deposit</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>59</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2343</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>1042</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>56</td>\n",
+       "      <td>0</td>\n",
+       "      <td>45</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>1467</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>41</td>\n",
+       "      <td>9</td>\n",
+       "      <td>1270</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>1389</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>55</td>\n",
+       "      <td>7</td>\n",
+       "      <td>2476</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>579</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>54</td>\n",
+       "      <td>0</td>\n",
+       "      <td>184</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>5</td>\n",
+       "      <td>8</td>\n",
+       "      <td>673</td>\n",
+       "      <td>2</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>1</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>...</th>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "      <td>...</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11157</th>\n",
+       "      <td>33</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>20</td>\n",
+       "      <td>0</td>\n",
+       "      <td>257</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11158</th>\n",
+       "      <td>39</td>\n",
+       "      <td>7</td>\n",
+       "      <td>733</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>16</td>\n",
+       "      <td>6</td>\n",
+       "      <td>83</td>\n",
+       "      <td>4</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11159</th>\n",
+       "      <td>32</td>\n",
+       "      <td>9</td>\n",
+       "      <td>29</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>19</td>\n",
+       "      <td>1</td>\n",
+       "      <td>156</td>\n",
+       "      <td>2</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11160</th>\n",
+       "      <td>43</td>\n",
+       "      <td>9</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>8</td>\n",
+       "      <td>8</td>\n",
+       "      <td>9</td>\n",
+       "      <td>2</td>\n",
+       "      <td>172</td>\n",
+       "      <td>5</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>11161</th>\n",
+       "      <td>34</td>\n",
+       "      <td>9</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>9</td>\n",
+       "      <td>5</td>\n",
+       "      <td>628</td>\n",
+       "      <td>1</td>\n",
+       "      <td>-1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>11162 rows × 14 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       age  job  balance  housing  loan  contact  day  month  duration  \\\n",
+       "0       59    0     2343        1     0        2    5      8      1042   \n",
+       "1       56    0       45        0     0        2    5      8      1467   \n",
+       "2       41    9     1270        1     0        2    5      8      1389   \n",
+       "3       55    7     2476        1     0        2    5      8       579   \n",
+       "4       54    0      184        0     0        2    5      8       673   \n",
+       "...    ...  ...      ...      ...   ...      ...  ...    ...       ...   \n",
+       "11157   33    1        1        1     0        0   20      0       257   \n",
+       "11158   39    7      733        0     0        2   16      6        83   \n",
+       "11159   32    9       29        0     0        0   19      1       156   \n",
+       "11160   43    9        0        0     1        0    8      8         9   \n",
+       "11161   34    9        0        0     0        0    9      5       628   \n",
+       "\n",
+       "       campaign  pdays  previous  poutcome  deposit  \n",
+       "0             1     -1         0         3        1  \n",
+       "1             1     -1         0         3        1  \n",
+       "2             1     -1         0         3        1  \n",
+       "3             1     -1         0         3        1  \n",
+       "4             2     -1         0         3        1  \n",
+       "...         ...    ...       ...       ...      ...  \n",
+       "11157         1     -1         0         3        0  \n",
+       "11158         4     -1         0         3        0  \n",
+       "11159         2     -1         0         3        0  \n",
+       "11160         2    172         5         0        0  \n",
+       "11161         1     -1         0         3        0  \n",
+       "\n",
+       "[11162 rows x 14 columns]"
+      ]
+     },
+     "execution_count": 71,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "data"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 72,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([0])"
+      ]
+     },
+     "execution_count": 72,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "lgr.predict(sc.transform([[43,9,0,0,1,0,8,8,9,2,172,5,0]]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 73,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([0])"
+      ]
+     },
+     "execution_count": 73,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "lgr.predict(sc.transform([[33,1,1,1,0,0,20,0,257,1,-1,0,3]]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
